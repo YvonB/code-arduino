@@ -12,12 +12,12 @@ MQ135_a gasSensora = MQ135_a(mq135Pin_a); // CO2
 MQ135_b gasSensorb = MQ135_b(mq135Pin_b); // CO
 MQ135_c gasSensorc = MQ135_c(mq135Pin_c); // NH3
 
-const char* ssid     = "depttco";      // NOM du WIF
-const char* password = "";   // Son Mot de passe 
+const char* ssid     = "nom du wifi";      // NOM du WIF
+const char* password = "mot de passe du wifi";   // Son Mot de passe 
 
 WiFiClient client;     // L'objet qui nous servira à la communication
 
-char servername[]="192.168.177.77";  // Le serveur à interroger // byte servername[] = {192, 168, 177, 77};
+char servername[]="mems-27-1.appspot.com";  // Le serveur à interroger // byte servername[] = {192, 168, 177, 77};
 
 String result; // pour ce qui sera la réponse de notre serveur 
 
@@ -128,7 +128,7 @@ void EnvoyerLesTroisValeursAuServeur(String CO2, String CO, String NH3)
     if (client.connect(servername, 80)) //On connecte notre Arduino sur "leserveur.com" et le port 80 (defaut pour l'http)
     {  
     Serial.println("OK ! On est Connecté au Serveur ");        // Si c'est OK, on affiche cela
-    client.print("GET /arduino/Insertion.php?");
+    client.print("GET /post.php?");
     client.print("&ValeurCO2=");
     client.print(CO2);
     client.print("&ValeurCO=");
@@ -136,7 +136,7 @@ void EnvoyerLesTroisValeursAuServeur(String CO2, String CO, String NH3)
     client.print("&ValeurNH3=");
     client.print(NH3);
     client.println(" HTTP/1.1"); //puis on envoie la requete
-    client.println("Host: 192.168.177.77");      // On précise le serveur, le site qui devra faire (héberger, "host" en anglais) la réponse
+    client.println("Host: mems-27-1.appspot.com");      // On précise le serveur, le site qui devra faire (héberger, "host" en anglais) la réponse
     client.println("Connection: close");  // on signale au serveur que la connexion sera fermée lorsque les données sont transférées.
     client.println(); //fin de la requete GET, pour prévenir que l’on vient de finir d’écrire notre en-tête (header), on envoie une ligne blanche.
     } 
